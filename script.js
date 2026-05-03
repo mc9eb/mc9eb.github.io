@@ -12,8 +12,9 @@ function startGame() {
     gameOver = false;
 
     document.getElementById("gameArea").classList.remove("hidden");
-    setMessage("Game started!");
+    document.getElementById("endButtons").innerHTML = "";
 
+    setMessage("Game started! Make a guess.");
     updateUI();
 }
 
@@ -22,23 +23,23 @@ function checkGuess() {
 
     const input = document.getElementById("guessInput").value.trim();
 
-    // ❌ empty
+    // empty input
     if (input === "") {
-        setMessage("Enter a number!");
+        setMessage("⚠️ Enter a number.");
         return;
     }
 
-    // ❌ not a whole number
+    // reject decimals, letters, symbols
     if (!/^\d+$/.test(input)) {
-        setMessage("Only whole numbers allowed (no decimals/symbols).");
+        setMessage("⚠️ Only whole numbers allowed.");
         return;
     }
 
     const guess = Number(input);
 
-    // ❌ out of range
+    // range check
     if (guess < 1 || guess > maxNumber) {
-        setMessage(`Stay between 1 and ${maxNumber}.`);
+        setMessage(`⚠️ Stay between 1 and ${maxNumber}.`);
         return;
     }
 
@@ -49,6 +50,7 @@ function checkGuess() {
         setMessage("🎉 Correct!");
         gameOver = true;
         updateUI();
+        showEndButtons();
         return;
     }
 
@@ -61,6 +63,9 @@ function checkGuess() {
     if (attemptsLeft === 0) {
         setMessage(`❌ Game Over! Number was ${randomNumber}`);
         gameOver = true;
+        updateUI();
+        showEndButtons();
+        return;
     }
 
     updateUI();
@@ -79,4 +84,29 @@ function updateUI() {
 
 function setMessage(msg) {
     document.getElementById("message").textContent = msg;
+}
+
+function showEndButtons() {
+    const container = document.getElementById("endButtons");
+    container.innerHTML = "";
+
+    const playAgainBtn = document.createElement("button");
+    playAgainBtn.textContent = "Play Again";
+    playAgainBtn.onclick = startGame;
+
+    const changeDiffBtn = document.createElement("button");
+    changeDiffBtn.textContent = "Choose Difficulty";
+    changeDiffBtn.onclick = resetGame;
+
+    container.appendChild(playAgainBtn);
+    container.appendChild(changeDiffBtn);
+}
+
+function resetGame() {
+    gameOver = false;
+
+    document.getElementById("gameArea").classList.add("hidden");
+    document.getElementById("endButtons").innerHTML = "";
+
+    setMessage("Choose a difficulty to start again.");
 }
