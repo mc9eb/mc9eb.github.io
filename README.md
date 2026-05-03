@@ -1,4 +1,5 @@
 ## Guess the Number Game
+LINK: https://mc9eb.github.io/
 
 A simple browser game where you guess a random number.
 
