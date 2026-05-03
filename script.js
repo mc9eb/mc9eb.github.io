@@ -23,13 +23,11 @@ function checkGuess() {
 
     const input = document.getElementById("guessInput").value.trim();
 
-    // empty input
     if (input === "") {
         setMessage("⚠️ Enter a number.");
         return;
     }
 
-    // reject decimals, letters, symbols
     if (!/^\d+$/.test(input)) {
         setMessage("⚠️ Only whole numbers allowed.");
         return;
@@ -37,7 +35,6 @@ function checkGuess() {
 
     const guess = Number(input);
 
-    // range check
     if (guess < 1 || guess > maxNumber) {
         setMessage(`⚠️ Stay between 1 and ${maxNumber}.`);
         return;
@@ -94,19 +91,5 @@ function showEndButtons() {
     playAgainBtn.textContent = "Play Again";
     playAgainBtn.onclick = startGame;
 
-    const changeDiffBtn = document.createElement("button");
-    changeDiffBtn.textContent = "Choose Difficulty";
-    changeDiffBtn.onclick = resetGame;
-
     container.appendChild(playAgainBtn);
-    container.appendChild(changeDiffBtn);
-}
-
-function resetGame() {
-    gameOver = false;
-
-    document.getElementById("gameArea").classList.add("hidden");
-    document.getElementById("endButtons").innerHTML = "";
-
-    setMessage("Choose a difficulty to start again.");
 }
